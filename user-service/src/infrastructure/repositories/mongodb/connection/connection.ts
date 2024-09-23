@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
-import { dbConfig } from "../../../../config/database/database";
+import { dbConfig } from "../../../../config/dbconfig";
+
 
 export class Database {
   public static async connect(): Promise<void> {
     const { host, port, database, uri } = dbConfig;
     console.log(port, host, database, uri,"debug purpose");
-    const connectionString = uri || `mongodb://${host}:${port}/${database}`;
+    const connectionString = `mongodb://${host}:${port}/${database}`;
     console.log(connectionString,"string")
     try {
       await mongoose.connect(connectionString);
