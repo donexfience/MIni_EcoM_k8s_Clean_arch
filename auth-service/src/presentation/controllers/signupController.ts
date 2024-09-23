@@ -1,6 +1,6 @@
-import { ICreateUserCase } from "./../../domain/entities/User/useCases/ICreateUseCase";
+import { ICreateUserCase } from "../../domain/useCases/ICreateUseCase";
 import { PasswordHandler } from "../../_lib/utils/Bcyptjs/bcrypt";
-import { IFindUserByEmail } from "../../domain/entities/User/useCases/IFindUserByEmailCase";
+import { IFindUserByEmail } from "../../domain/useCases/IFindUserByEmailCase";
 import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
 import { User } from "../../domain/entities/User/userEntitiy";

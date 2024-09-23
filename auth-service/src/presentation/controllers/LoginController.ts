@@ -1,58 +1,51 @@
-import { IFindUserByEmail } from "./../../domain/entities/User/useCases/IFindUserByEmailCase";
-import { PasswordHandler } from "./../../_lib/utils/Bcyptjs/bcrypt";
-import {
-  TokenHandler,
-  TokenPayload,
-} from "../../_lib/utils/Jsonwebtoken/token";
 import { NextFunction, Request, Response } from "express";
+import { ILoginUseCase } from "../../domain/useCases/ILoginUsecase";
 import { ValidationType } from "../../_lib/utils/errors/validationError";
 import { AppError } from "../../_lib/utils/errors/customError";
+import { IFindUserByEmail } from "../../domain/useCases/IFindUserByEmailCase";
 
 export class LoginController {
-  private tokenHandler = new TokenHandler();
-  private PasswordHandler = new PasswordHandler();
-  private readonly findUserByEmail: IFindUserByEmail;
-  constructor(findUserByEmail: IFindUserByEmail) {
-    this.findUserByEmail = findUserByEmail;
+  private readonly loginUseCase: ILoginUseCase;
+  private readonly finduserByemail: IFindUserByEmail;
+
+  constructor(loginUseCase: ILoginUseCase, findUserByEmail: IFindUserByEmail) {
+    this.loginUseCase = loginUseCase;
+    this.finduserByemail = findUserByEmail;
   }
-  public async login(
+
+  public login = async (
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<void> {
+  ): Promise<void> => {
     try {
-      const vlaidationErrors: ValidationType[] = [];
+      const validationErrors: ValidationType[] = [];
       const { email, password } = req.body;
-      const user = await this.findUserByEmail.execute(email);
-      if (!user) {
-        throw AppError.badRequest("user not found please do the signup");
+
+      if (!email || !password) {
+        validationErrors.push({
+          fields: ["email", "password"],
+          constants: "Email and password are required",
+        });
+        throw AppError.badRequest("Email and password are required");
       }
-      const hasedPassword = await this.PasswordHandler.hashPassword(password);
-      const match = await this.PasswordHandler.comparePassword(
-        password,
-        hasedPassword
-      );
-      if (!match) {
-        throw AppError.badRequest(
-          "the provided password doesnt match with the existing email"
-        );
+      const existingUser = await this.finduserByemail.execute(email);
+      if (!existingUser) {
+        throw AppError.badRequest("user doesnt exist");
       }
-      if (!user._id) {
-        throw AppError.badRequest("id doesnt created");
-      }
-      const tokenPayload: TokenPayload = {
-        userId: user._id.toString(),
-        email: user.email,
-        isAdmin: user.isAdmin,
-        isBlocked: user.isBlocked,
-      };
-      const token = this.tokenHandler.generateAccessToken(tokenPayload);
-      res.cookie("token", token, {
-        maxAge: 1000 * 60 * 60 * 24,
+      const result = await this.loginUseCase.execute(email, password);
+      res.cookie("token", result.token, {
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
         httpOnly: true,
+      });
+      res.status(200).json({
+        success: true,
+        message: "Login successful",
+        user: result.user,
+        token: result.token,
       });
     } catch (error: any) {
       next(error);
     }
-  }
+  };
 }
