@@ -32,6 +32,7 @@ export class AddressController {
   constructor(
     @inject("ICreateAdressuseCase")
     createAdress: ICreateAdressuseCase,
+    @inject("IDeleteAdressUsecase")
     deleteAdress: IDeleteAdressUsecase
   ) {
     console.log("Address controller intialized");

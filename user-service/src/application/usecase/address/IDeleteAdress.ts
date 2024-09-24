@@ -1,7 +1,7 @@
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { IDeleteAdressUsecase } from "../../../domain/useCase/adress/DeleteAdress";
 import { IAdressRepositroy } from "../../interface/iAdress";
-
+@injectable()
 export class DeleteAdressUseCase implements IDeleteAdressUsecase {
   private addressRepository: IAdressRepositroy;
   constructor(

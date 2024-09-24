@@ -1,8 +1,9 @@
+import { injectable } from "inversify";
 import { IAdressRepositroy } from "../../../../../application/interface/iAdress";
 import { Address } from "../../../../../domain/entities/address/addressEntity";
 import addressModel from "../../model/addressModel";
 import userModel from "../../model/userModel";
-
+@injectable()
 export class AdressRepository implements IAdressRepositroy {
   private mapToAdressEntity(addressDoc: any): Address {
     return new Address(

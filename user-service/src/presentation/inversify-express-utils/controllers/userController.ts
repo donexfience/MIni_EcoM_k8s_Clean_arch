@@ -47,6 +47,19 @@ export class UserController {
       });
     } catch (error: any) {
       console.log(error, "user not found");
+      if (error instanceof ValidationError) {
+        res.status(error.statusCode).json({
+          message: error.message,
+          validationErrors: error.validationErrors,
+        });
+      } else if (error instanceof AppError) {
+        res.status(error.statusCode).json({ message: error.message });
+      } else {
+        const internalError = AppError.internalServer("Internal Server Error");
+        res
+          .status(internalError.statusCode)
+          .json({ message: internalError.message });
+      }
     }
   }
 
