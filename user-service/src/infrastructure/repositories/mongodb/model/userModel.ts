@@ -1,23 +1,39 @@
 import mongoose, { Schema, Document } from "mongoose";
 interface Iuser extends Document {
-  email: string;
-  password: string;
-  isActive: boolean;
-  role: string;
-  gender: string;
-  Username: string;
-  refreshToken?:string
+  name: String;
+  email: String;
+  password: String;
+  isAdmin: boolean;
+  isBlocked: boolean;
 }
-const userSchema = new mongoose.Schema({
-  email: { type: String, required: true },
-  password: { type: String, required: true },
-  isActive: { type: Boolean, default: true },
-  role: { type: String, enum: ['user', 'admin'], default: 'user' },
-  gender: { type: String, enum: ['male', 'female', 'other'], default: 'other' },  // Add this if not already defined
-  username: { type: String, required: false },
-  refreshToken: { type: String, default: null }
-});
-
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const userModel = mongoose.model<Iuser>("User", userSchema);
 export default userModel;

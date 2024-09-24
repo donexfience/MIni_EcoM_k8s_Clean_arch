@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
-import { User } from "../../../../domain/entities/userEntity";
-import { IUserRepository } from "../../../../application/interface/IUser";
-import userModel from "../model/userModel";
+import { User } from "../../../../../domain/entities/user/userEntity";
+import { IUserRepository } from "../../../../../application/interface/IUser";
+import userModel from "../../model/userModel";
 
 @injectable()
 export class UserRepository implements IUserRepository {

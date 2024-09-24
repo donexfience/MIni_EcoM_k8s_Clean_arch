@@ -8,10 +8,10 @@ import {
   response,
   httpGet,
 } from "inversify-express-utils";
-import { IUpdateUserUsecase } from "../../domain/useCase/updateUserusecase";
-import { User } from "../../domain/entities/userEntity";
-import { ValidationError } from "../../_lib/errors/validationError";
-import { AppError } from "../../_lib/errors/customError";
+import { IUpdateUserUsecase } from "../../../domain/useCase/user/updateUserusecase";
+import { User } from "../../../domain/entities/user/userEntity";
+import { ValidationError } from "../../../_lib/errors/validationError";
+import { AppError } from "../../../_lib/errors/customError";
 
 declare global {
   namespace Express {
@@ -26,15 +26,30 @@ export class UserController {
   private readonly updateUserUseCase: IUpdateUserUsecase;
 
   constructor(
-    @inject("IupdateUserUseCase") updateUserUseCase: IUpdateUserUsecase
+    @inject("IupdateUserUseCase")
+    updateUserUseCase: IUpdateUserUsecase
   ) {
     console.log("user controller intialized");
     this.updateUserUseCase = updateUserUseCase;
   }
-  @httpGet("/")
+
+  @httpGet("/user")
   public getUser(req: Request, res: Response) {
-    res.send("User details");
+    try {
+      const user = req.user;
+      if (!user) {
+        throw AppError.badRequest("user not found");
+      }
+      res.status(200).json({
+        success: true,
+        data: user,
+        message: "success geting api/users",
+      });
+    } catch (error: any) {
+      console.log(error, "user not found");
+    }
   }
+
   @httpPatch("/update")
   public async updateUser(
     @request() req: Request,

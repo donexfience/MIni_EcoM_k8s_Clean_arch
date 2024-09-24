@@ -1,43 +1,35 @@
-import "reflect-metadata";
+import "reflect-metadata";;
 import { InversifyExpressServer } from "inversify-express-utils";
 import express, { NextFunction, Request, Response } from "express";
-import "./presentation/inversify-express-utils/userController"; // Ensure this is correctly set up
+import "./presentation/inversify-express-utils/controllers/userController";
+import './presentation/inversify-express-utils/controllers/addressController'
 import { Database } from "./infrastructure/repositories/mongodb/connection/connection";
 import { container } from "./config/inversify-config-container";
-import { ErrorMiddleware } from "./presentation/inversify-express-utils/Errors-middleware/error-middleware";
-import { AppError } from "./_lib/errors/customError";
+
 
 const server = new InversifyExpressServer(container);
-
 server.setConfig(async (app) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  // Log each request
-  app.use((req: Request, _: Response, next: NextFunction) => {
-    console.log(`Request received: ${req.method} ${req.originalUrl}`);
-    next();
-  });
+  app.use(
+    "/api/user/update",
+    (req: Request, res: Response, next: NextFunction) => {
+      console.log("Incoming request to /api/user/update:", req.body);
+      next();
+    }
+  );
 
-  // Handle not found routes
-  app.use((req: Request, _: Response, next: NextFunction) => {
-    next(AppError.notFound(`Can't find ${req.originalUrl} on this server!`));
-  });
-
-  // Test route
   app.get("/", (req: Request, res: Response) => {
-    console.log("Hello World");
+    console.log("hello ");
     res.send("Hello World");
   });
-
-  // Error Handling Middleware
-  app.use(ErrorMiddleware.handleError);
 });
 
 const app = server.build();
 const port = process.env.PORT || 3001;
 
 app.listen(port, async () => {
-  await Database.connect(); // Ensure this does not hang the server
+  await Database.connect();
   console.log(`Server is running on port ${port}`);
 });

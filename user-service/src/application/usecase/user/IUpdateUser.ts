@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
-import { IUpdateUserUsecase } from "../../domain/useCase/updateUserusecase";
-import { IUserRepository } from "../interface/IUser";
-import { User } from "../../domain/entities/userEntity";
+import { IUpdateUserUsecase } from "../../../domain/useCase/user/updateUserusecase";
+import { IUserRepository } from "../../interface/IUser";
+import { User } from "../../../domain/entities/user/userEntity";
 @injectable()
 export class UpdateUserCases implements IUpdateUserUsecase {
   private userRepository: IUserRepository;
