@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/express": "^4.17.21",
+    "donexfdz": "1.0.8",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "inversify": "^6.0.2",

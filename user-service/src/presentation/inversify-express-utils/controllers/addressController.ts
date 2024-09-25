@@ -8,12 +8,13 @@ import {
   response,
   httpGet,
   httpPost,
+  httpDelete,
 } from "inversify-express-utils";
 import { ValidationError } from "../../../_lib/errors/validationError";
 import { AppError } from "../../../_lib/errors/customError";
 import { ICreateAdressuseCase } from "../../../domain/useCase/adress/createAdress";
 import { Address } from "../../../domain/entities/address/addressEntity";
-import { Types } from "mongoose";
+import { MongooseError, Types } from "mongoose";
 import { IDeleteAdressUsecase } from "../../../domain/useCase/adress/DeleteAdress";
 
 // declare global {
@@ -74,6 +75,8 @@ export class AddressController {
         });
       } else if (error instanceof AppError) {
         res.status(error.statusCode).json({ message: error.message });
+      } else if (error instanceof MongooseError) {
+        res.status(400).json({ message: error.message });
       } else {
         const internalError = AppError.internalServer("Internal Server Error");
         res
@@ -82,6 +85,7 @@ export class AddressController {
       }
     }
   }
+  @httpDelete("/delete")
   public async deleteAdress(
     @request() req: Request,
     @requestBody() body: Partial<Address>,

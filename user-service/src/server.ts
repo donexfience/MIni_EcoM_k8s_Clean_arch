@@ -5,6 +5,7 @@ import "./presentation/inversify-express-utils/controllers/userController";
 import './presentation/inversify-express-utils/controllers/addressController'
 import { Database } from "./infrastructure/repositories/mongodb/connection/connection";
 import { container } from "./config/inversify-config-container";
+import { checkUserBlockStatus } from "./presentation/inversify-express-utils/middleware/blockOrUnblcok";
 
 
 const server = new InversifyExpressServer(container);

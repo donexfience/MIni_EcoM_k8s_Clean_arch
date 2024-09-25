@@ -12,14 +12,10 @@ import { IUpdateUserUsecase } from "../../../domain/useCase/user/updateUseruseca
 import { User } from "../../../domain/entities/user/userEntity";
 import { ValidationError } from "../../../_lib/errors/validationError";
 import { AppError } from "../../../_lib/errors/customError";
+import { checkUserBlockStatus } from "../middleware/blockOrUnblcok";
+import { MongooseError } from "mongoose";
+import { checkBlockedUser, requrieAuth, setCurrentUser } from "donexfdz";
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: User;
-    }
-  }
-}
 
 @controller("/api/user")
 export class UserController {
@@ -33,7 +29,7 @@ export class UserController {
     this.updateUserUseCase = updateUserUseCase;
   }
 
-  @httpGet("/user")
+  @httpGet("/user", checkUserBlockStatus,setCurrentUser,checkBlockedUser,requrieAuth)
   public getUser(req: Request, res: Response) {
     try {
       const user = req.user;
@@ -63,14 +59,14 @@ export class UserController {
     }
   }
 
-  @httpPatch("/update")
+  @httpPatch("/update", checkUserBlockStatus, setCurrentUser,checkUserBlockStatus,requrieAuth)
   public async updateUser(
     @request() req: Request,
     @requestBody() updatedUserData: Partial<User>,
     @response() res: Response
   ): Promise<void> {
     try {
-      const id = req.user?._id;
+      const id = req.user?.userId
 
       // Validation
       if (!id) {
@@ -102,6 +98,8 @@ export class UserController {
         });
       } else if (error instanceof AppError) {
         res.status(error.statusCode).json({ message: error.message });
+      } else if (error instanceof MongooseError) {
+        res.status(400).json({ message: error.message });
       } else {
         const internalError = AppError.internalServer("Internal Server Error");
         res
