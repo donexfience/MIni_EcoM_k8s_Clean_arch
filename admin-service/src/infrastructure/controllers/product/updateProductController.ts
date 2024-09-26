@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 export default (dependencie: any) => {
 
     const {
-        productUsecases: { updateProductUsecase }
+        productUseCase: { updateProductusecase }
     } = dependencie;
 
 
@@ -20,7 +20,7 @@ export default (dependencie: any) => {
                 data.image = req?.file?.filename;
             }
 
-            const product = await updateProductUsecase(dependencie).interactor(id,data);
+            const product = await updateProductusecase(dependencie).interactor(id,data);
 
             // //produce-message
             // await productUpdatedProducer(product);

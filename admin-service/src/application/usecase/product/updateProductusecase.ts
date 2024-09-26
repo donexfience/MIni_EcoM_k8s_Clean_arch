@@ -1,10 +1,10 @@
 export default (dependencie: any) => {
 
     const {
-        productRepositories: { updateProduct }
+        productRepositories: { updteProduct }
     } = dependencie;
 
-    if (!updateProduct) {
+    if (!updteProduct) {
         throw new Error('Dependency is required for update product!');
     }
 
@@ -19,7 +19,7 @@ export default (dependencie: any) => {
             isBlocked: boolean;
         }
     ) => {
-        return await updateProduct(id, data);
+        return await updteProduct(id, data);
     }
 
     return { interactor }

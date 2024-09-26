@@ -1,2 +1,2 @@
-export * as ProductUsecase from "./product";
-export * as UserUsecase from "./user";
+export * as productUseCase from "./product";
+export * as userUseCase from "./user";

@@ -1,7 +1,7 @@
 import { UserEntity } from "../../../../domain/entities/userEntity";
 import userModel from "../model/user";
 
-export const FindAllProduct = async (
+export const FindAllUser = async (
   pages: 1,
   limit: 1
 ): Promise<UserEntity[] | [] | null> => {

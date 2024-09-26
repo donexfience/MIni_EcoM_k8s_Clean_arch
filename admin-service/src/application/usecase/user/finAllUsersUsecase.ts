@@ -1,17 +1,17 @@
-export default (dependencie: any) => {
+export default (dependencies: any) => {
 
     const {
-        userRepositories: { findAllUsers }
-    } = dependencie;
+        userRepositories: { FindAllUser }
+    } = dependencies;
 
-    if (!findAllUsers) {
+    if (!FindAllUser) {
         throw new Error('Dependency is required for find all users!');
     }
 
     const interactor = async (
         page: number, limit: number
     ) => {
-        return await findAllUsers(page, limit);
+        return await FindAllUser(page, limit);
     }
 
     return { interactor }

@@ -1,8 +1,8 @@
-export default (dependencie: any) => {
+export default (dependencies: any) => {
 
     const {
         userRepositories: { findUser }
-    } = dependencie;
+    } = dependencies;
 
     if (!findUser) {
         throw new Error('Dependency is required for find user!');

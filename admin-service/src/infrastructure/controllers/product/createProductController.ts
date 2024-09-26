@@ -3,8 +3,9 @@ interface MulterRequest extends Request {
   file?: Express.Multer.File;
 }
 export default (dependencies: any) => {
+  console.log(dependencies, "cratepcontroller");
   const {
-    ProductUsecase: { createProductUsecase },
+    productUseCase: { createProductusecase },
   } = dependencies;
   const createProduct = async (
     req: Request,
@@ -14,7 +15,7 @@ export default (dependencies: any) => {
     try {
       const image = req?.file?.filename;
       const data = req.body;
-      const product = await createProductUsecase(dependencies).interactor({
+      const product = await createProductusecase(dependencies).interactor({
         image: image,
         ...data,
       });
@@ -25,5 +26,5 @@ export default (dependencies: any) => {
       next(error);
     }
   };
-  return { createProduct };
+  return createProduct;
 };
