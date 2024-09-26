@@ -13,7 +13,6 @@ const {
   updateProductController,
 } = productController(dependencies);
 
-
 router
   .route("/api/admin/products")
   .get(setCurrentUser, requireAdmin, getAllProductController)
@@ -21,7 +20,11 @@ router
     createProductController,
     setCurrentUser,
     requireAdmin,
-    upload.single("file"),
+    upload.single("file")
   );
+router
+  .route("/api/admin/products/:id")
+  .get(setCurrentUser, requireAdmin, getProductController)
+  .put(setCurrentUser, requireAdmin, updateProductController);
 
 export default router;

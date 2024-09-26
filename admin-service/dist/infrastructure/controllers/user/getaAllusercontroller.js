@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (dependencie) => {
-    console.log(dependencie, "dpe");
     const { userUseCase: { finAllUsersUsecase }, } = dependencie;
     const getAlluser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         var _a, _b;

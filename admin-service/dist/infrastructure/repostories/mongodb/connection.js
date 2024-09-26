@@ -20,7 +20,7 @@ class Database {
         return __awaiter(this, void 0, void 0, function* () {
             const { host, port, database, uri } = dbconfig_1.dbConfig;
             console.log(port, host, database, uri, "debug purpose");
-            const connectionString = uri || `mongodb://${host}:${port}/${database}`;
+            const connectionString = `mongodb://${host}:${port}/${database}`;
             console.log(connectionString, "string");
             try {
                 yield mongoose_1.default.connect(connectionString);

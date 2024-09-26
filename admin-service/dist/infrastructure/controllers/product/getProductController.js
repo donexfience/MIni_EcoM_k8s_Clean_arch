@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (dependencie) => {
-    const { productUsecases: { findProductByidusercaset } } = dependencie;
+    const { productUseCase: { findProductByidusercaset }, } = dependencie;
     const getProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         var _a;
         try {
@@ -19,7 +19,7 @@ exports.default = (dependencie) => {
             res.status(200).json({
                 success: true,
                 data: product,
-                message: "product data retrieved!"
+                message: "product data retrieved!",
             });
         }
         catch (error) {

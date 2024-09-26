@@ -17,18 +17,23 @@ import {
   isStrongPassword,
   isValidEmail,
 } from "../../_lib/utils/validations/validation";
+import { KafkaProducerService } from "../../infrastructure/Kafka/producer/common/Producer";
+import { Topics } from "donexfdz";
 
 export class SignupController {
   private tokenHandler = new TokenHandler();
   private psaswordHandler = new PasswordHandler();
   private readonly createUserUseCase: ICreateUserCase;
   private readonly findUserByEmail: IFindUserByEmail;
+  private kafkaProducerService: KafkaProducerService;
   constructor(
     createUserUseCase: ICreateUserCase,
-    findUserByEmail: IFindUserByEmail
+    findUserByEmail: IFindUserByEmail,
+    kafkaProducer: KafkaProducerService
   ) {
     this.createUserUseCase = createUserUseCase;
     this.findUserByEmail = findUserByEmail;
+    this.kafkaProducerService = kafkaProducer;
   }
   public async createUser(
     req: Request,
@@ -61,6 +66,7 @@ export class SignupController {
       }
       const hashedPassword = await this.psaswordHandler.hashPassword(password);
       const newUser = new User(name, email, hashedPassword, false, false);
+
       const user = await this.createUserUseCase.execute(newUser);
       if (!user) {
         throw AppError.badRequest("user not created");
@@ -68,6 +74,17 @@ export class SignupController {
       if (!user._id) {
         throw AppError.badRequest("user id not created");
       }
+      const userCreatedEvent = {
+        userId: user._id.toString(),
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        isBlocked: user.isBlocked,
+      };
+      await this.kafkaProducerService.produce(
+        Topics.USER_SERVICE_TOPIC,
+        userCreatedEvent
+      );  
       const tokenPayload: TokenPayload = {
         userId: user._id.toString(),
         email: user.email,

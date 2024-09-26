@@ -14,6 +14,7 @@ import rateLimit from "express-rate-limit";
 import { AppError } from "./_lib/utils/errors/customError";
 import { ErrorMiddleware } from "./presentation/middleware/error-middlwware";
 import { Database } from "./infrastructure/repositories/mongodb/connection/connetion";
+import { ConsumerManager } from "./infrastructure/Kafka/consumer/consumer_manager/consumer";
 
 interface ServerOptions {
   port: number;
@@ -22,6 +23,10 @@ interface ServerOptions {
 }
 
 export class Server {
+  private readonly brokers = process.env.BROKERS_ID?.split(",") || [
+    "localhost:9092",
+  ];
+  private readonly consumerManager = new ConsumerManager(this.brokers);
   private readonly app = express();
   private readonly port: number;
   private readonly routes: Router;
@@ -48,7 +53,10 @@ export class Server {
         message: "Too many requests from this IP, please try again in one hour",
       })
     );
-
+    //consumers
+    this.consumerManager.startConsumers().catch((error: any) => {
+      console.error("Error initializing consumer manager:", error);
+    });
     // CORS Configuration
     this.app.use((req, res, next) => {
       const allowedOrigins = ["http://localhost:5173"];
