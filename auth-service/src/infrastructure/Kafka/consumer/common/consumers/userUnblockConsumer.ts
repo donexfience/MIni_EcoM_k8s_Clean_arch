@@ -1,20 +1,21 @@
 import { UserBlockUseCase } from "../../../../../application/useCase/user-block-usecase";
+import { UserUnBlockUseCase } from "../../../../../application/useCase/user-unblock-user";
 import { User } from "../../../../../domain/entities/User/userEntitiy";
 import userModel from "../../../../repositories/mongodb/models/User";
 import { KafkaConsumer } from "../consumer";
 
-export class UserBlockConsumer extends KafkaConsumer {
+export class UserUnBlockConsumer extends KafkaConsumer {
   private topic: string;
-  private userBlockUserUseCase: UserBlockUseCase;
+  private userUnBlockUserUseCase: UserUnBlockUseCase;
 
   constructor(
     brokers: string[],
     topic: string,
-    userBlockUserUsecase: UserBlockUseCase
+    userunBlockUserUsecase: UserUnBlockUseCase
   ) {
     super(brokers, "auth-service-kafka-group");
     this.topic = topic;
-    this.userBlockUserUseCase = userBlockUserUsecase;
+    this.userUnBlockUserUseCase = userunBlockUserUsecase;
   }
 
   public async startConsuming(
@@ -41,11 +42,7 @@ export class UserBlockConsumer extends KafkaConsumer {
     isBlocked: boolean;
   }) {
     try {
-      const user = await this.userBlockUserUseCase.execute(
-        data._id,
-        data.isBlocked
-      );
-      console.log(user, "user consumed by blockoconsumer");
+      
       console.log("==========");
       console.log("User block consumed in auth-service");
       console.log("==========");

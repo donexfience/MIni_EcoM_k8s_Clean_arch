@@ -15,6 +15,10 @@ import { AppError } from "./_lib/utils/errors/customError";
 import { ErrorMiddleware } from "./presentation/middleware/error-middlwware";
 import { Database } from "./infrastructure/repositories/mongodb/connection/connetion";
 import { ConsumerManager } from "./infrastructure/Kafka/consumer/consumer_manager/consumer";
+import { UserBlockUseCase } from "./application/useCase/user-block-usecase";
+import { AuthRepository } from "./application/interface/repositories/IAuth";
+import { MongoAuthRepository } from "./infrastructure/repositories/mongodb/Mongo-AuthRepositoy";
+import { UserUnBlockUseCase } from "./application/useCase/user-unblock-user";
 
 interface ServerOptions {
   port: number;
@@ -26,7 +30,17 @@ export class Server {
   private readonly brokers = process.env.BROKERS_ID?.split(",") || [
     "localhost:9092",
   ];
-  private readonly consumerManager = new ConsumerManager(this.brokers);
+  private readonly authRepostory = new MongoAuthRepository();
+  private readonly userBlockUseCase = new UserBlockUseCase(this.authRepostory);
+  private readonly userUnBlokcUsecase = new UserUnBlockUseCase(
+    this.authRepostory
+  );
+
+  private readonly consumerManager = new ConsumerManager(
+    this.brokers,
+    this.userUnBlokcUsecase,
+    this.userBlockUseCase
+  );
   private readonly app = express();
   private readonly port: number;
   private readonly routes: Router;

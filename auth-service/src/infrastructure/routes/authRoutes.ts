@@ -5,6 +5,7 @@ import { SignupController } from "../../presentation/controllers/signupControlle
 import { LoginController } from "../../presentation/controllers/LoginController";
 import { LoginUseCase } from "../../application/useCase/Login-usecase";
 import { MongoAuthRepository } from "../repositories/mongodb/Mongo-AuthRepositoy";
+import { KafkaProducerService } from "../Kafka/producer/common/Producer";
 
 export class AuthRoutes {
   static get routes(): Router {
@@ -15,11 +16,13 @@ export class AuthRoutes {
     const findbyemailUseCase = new FindUserByEmail(repository);
     const loginUseCase = new LoginUseCase(findbyemailUseCase);
     const signupUseCase = new SignupUseCase(repository);
+    const kafkaProducerService = new KafkaProducerService();
 
     // Separate Controllers
     const signupController = new SignupController(
       signupUseCase,
-      findbyemailUseCase
+      findbyemailUseCase,
+      kafkaProducerService
     );
     const loginController = new LoginController(
       loginUseCase,
