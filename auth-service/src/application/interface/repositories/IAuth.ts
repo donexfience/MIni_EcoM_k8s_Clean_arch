@@ -6,4 +6,8 @@ export abstract class AuthRepository {
   abstract findUserById(userId: string): Promise<User | null>;
   abstract blockUser(userId: string, data: boolean): Promise<User | null>;
   abstract UnblockUser(userId: string, data: boolean): Promise<User | null>;
+  abstract updateUser(
+    userId: string,
+    data: Partial<User>
+  ): Promise<User | null>;
 }

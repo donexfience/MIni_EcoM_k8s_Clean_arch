@@ -19,6 +19,7 @@ import { UserBlockUseCase } from "./application/useCase/user-block-usecase";
 import { AuthRepository } from "./application/interface/repositories/IAuth";
 import { MongoAuthRepository } from "./infrastructure/repositories/mongodb/Mongo-AuthRepositoy";
 import { UserUnBlockUseCase } from "./application/useCase/user-unblock-user";
+import { UserUpdatUsecase } from "./application/useCase/user-update-usecase";
 
 interface ServerOptions {
   port: number;
@@ -35,11 +36,12 @@ export class Server {
   private readonly userUnBlokcUsecase = new UserUnBlockUseCase(
     this.authRepostory
   );
-
+  private readonly userUpdateUseCase = new UserUpdatUsecase(this.authRepostory);
   private readonly consumerManager = new ConsumerManager(
     this.brokers,
     this.userUnBlokcUsecase,
-    this.userBlockUseCase
+    this.userBlockUseCase,
+    this.userUpdateUseCase
   );
   private readonly app = express();
   private readonly port: number;

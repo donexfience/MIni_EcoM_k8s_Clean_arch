@@ -12,7 +12,7 @@ export class KafkaProducerService {
       brokers: brokers,
     });
 
-    this.producer = this.kafka.producer();
+    this.producer = this.kafka.producer({ allowAutoTopicCreation: true });
   }
 
   // Connect producer
@@ -41,6 +41,8 @@ export class KafkaProducerService {
         topic,
         messages: [{ value: JSON.stringify(message) }],
       });
+      console.log("succfully produced");
+      
       await this.disconnectProducer();
     } catch (error) {
       console.error(`Error sending message to topic ${topic}:`, error);
