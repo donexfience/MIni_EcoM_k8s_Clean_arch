@@ -7,6 +7,7 @@ import { AuthRepository } from "../../../application/interface/repositories/IAut
 import { UserCreationRepository } from "./repositories/userCreate";
 import { User } from "../../../domain/entities/User/userEntitiy";
 import { UserUdpateRepository } from "./repositories/userUpdates";
+import { UserUdpateConsumeRepository } from "./repositories/userupdateconsume";
 
 export class MongoAuthRepository extends AuthRepository {
   private userCreationRepo = new UserCreationRepository();
@@ -15,8 +16,11 @@ export class MongoAuthRepository extends AuthRepository {
   private UserBlockRepository = new UserBlockRepository();
   private UserUnBlockRepository = new UserUnBlockRepository();
   private UserUpdateRepository = new UserUdpateRepository();
+  private UserUpdateConsumerRepository = new UserUdpateConsumeRepository();
   public async create(userEntity: User): Promise<User | null> {
-    return this.userCreationRepo.create(userEntity);
+    console.log("1234");
+
+    return await this.userCreationRepo.create(userEntity);
   }
   public async findByEmail(email: string): Promise<User | null> {
     return this.UserFindByEmailRepository.findByEmail(email);
@@ -36,4 +40,10 @@ export class MongoAuthRepository extends AuthRepository {
   public async updateUser(userId: string, data: User): Promise<User | null> {
     return this.UserUpdateRepository.UpdateUser(userId, data);
   }
+  // public async updateConsumeUser(
+  //   userId: string,
+  //   data: User
+  // ): Promise<User | null> {
+  //   return this.UserUpdateConsumerRepository.UpdateUser(userId, data);
+  // }
 }

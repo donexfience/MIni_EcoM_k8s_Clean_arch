@@ -8,16 +8,16 @@ import { KafkaConsumer } from "../consumer";
 
 export class UserUpdateConsumer extends KafkaConsumer {
   private topic: string;
-  private userUpdateUseCase: UserUpdatUsecase; // Use case for updating user
+  private userUpdateUseCase: UserUpdatUsecase;
 
   constructor(
     brokers: string[],
     topic: string,
-    userUpdateUseCase: UserUpdatUsecase // Update constructor parameter
+    userUpdateUseCase: UserUpdatUsecase
   ) {
     super(brokers, "auth-service-kafka-group");
     this.topic = topic;
-    this.userUpdateUseCase = userUpdateUseCase; // Assign the use case
+    this.userUpdateUseCase = userUpdateUseCase;
   }
 
   public async startConsuming(
@@ -40,22 +40,25 @@ export class UserUpdateConsumer extends KafkaConsumer {
 
   // Updated method to handle user updates
   protected async handleUserUpdate(data: {
-    _id: string;
-    updates: Partial<User>; 
+    userId: string;
+    updates: Partial<User>;
   }) {
     try {
       console.log("==========");
       console.log("User update consumed in auth-service");
-      console.log("User ID:", data._id);
+      console.log("User ID:", data.userId);
       console.log("Updates:", data.updates);
       console.log("==========");
 
       // Call the UserUpdateUseCase to update the user
-      const updatedUser = await this.userUpdateUseCase.execute(data._id, data.updates);
+      const updatedUser = await this.userUpdateUseCase.execute(
+        data.userId,
+        data.updates
+      );
       if (updatedUser) {
         console.log("User updated successfully:", updatedUser);
       } else {
-        console.log("User not found for ID:", data._id);
+        console.log("User not found for ID:", data.userId);
       }
     } catch (error: any) {
       console.log("Error processing user update:", error?.message);
@@ -63,6 +66,7 @@ export class UserUpdateConsumer extends KafkaConsumer {
   }
 
   protected async processMessage(data: any) {
+    console.log(data,"data here procesing")
     await this.handleUserUpdate(data);
   }
 

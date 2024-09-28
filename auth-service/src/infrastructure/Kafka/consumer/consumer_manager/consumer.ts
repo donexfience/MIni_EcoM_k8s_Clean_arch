@@ -8,8 +8,8 @@ import { UserUpdateConsumer } from "../common/consumers/userUpdatedConsumer";
 
 export class ConsumerManager {
   private kafkaClient: KafkaClient;
-  private userBlockConsumer: UserBlockConsumer;
-  private userUnBlockConsumer: UserUnBlockConsumer;
+  // private userBlockConsumer: UserBlockConsumer;
+  // private userUnBlockConsumer: UserUnBlockConsumer;
   private userUdateConsumer: UserUpdateConsumer;
 
   constructor(
@@ -22,17 +22,17 @@ export class ConsumerManager {
       process.env.KAFKA_CLIENT_ID || "AUTH_SERVICE_CLIENT",
       brokers
     );
-    const topic = "USER_BLOCK_TOPIC";
-    this.userBlockConsumer = new UserBlockConsumer(
-      brokers,
-      topic,
-      this.userBlockuseCase
-    );
-    this.userUnBlockConsumer = new UserUnBlockConsumer(
-      brokers,
-      topic,
-      this.userUnBlockuseCase
-    );
+    const topic = "user-updated";
+    // this.userBlockConsumer = new UserBlockConsumer(
+    //   brokers,
+    //   topic,
+    //   this.userBlockuseCase
+    // );
+    // this.userUnBlockConsumer = new UserUnBlockConsumer(
+    //   brokers,
+    //   topic,
+    //   this.userUnBlockuseCase
+    // );
     this.userUdateConsumer = new UserUpdateConsumer(
       brokers,
       topic,
@@ -42,7 +42,9 @@ export class ConsumerManager {
 
   public async startConsumers() {
     try {
-      await this.userBlockConsumer.startConsuming();
+      // await this.userBlockConsumer.startConsuming();
+      // await this.userUnBlockConsumer.startConsuming();
+      await this.userUdateConsumer.startConsuming();
       console.log("User Block Consumer started successfully");
     } catch (error) {
       console.error("Error starting consumers:", error);

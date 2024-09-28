@@ -16,6 +16,7 @@ export class UserUdpateRepository {
     userId: string,
     updateData: Partial<User>
   ): Promise<User | null> {
+    console.log(userId,"In repository")
     const user = await userModel.findByIdAndUpdate(userId, updateData, {
       new: true,
     });

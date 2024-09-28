@@ -5,6 +5,7 @@ export class UserCreationRepository {
   private toEntity(user: any): User {
     return User.fromJson({
       _id: user._id,
+      name:user.name,
       email: user.email,
       password: user.password,
       isActive: user.isActive,
@@ -14,7 +15,8 @@ export class UserCreationRepository {
 
   public async create(userEntity: User): Promise<User | null> {
     const user = new userModel(userEntity);
-    await user.save();
+    const data = await user.save().then((data) => console.log("ddddddddddddddddddddddddddddddddd", data)).catch((el) => console.error(el))
+    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh", user,)
     return this.toEntity(user);
   }
 }

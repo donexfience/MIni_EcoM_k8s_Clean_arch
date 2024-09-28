@@ -6,15 +6,8 @@ import { ICreateUserCase } from "./../../domain/useCases/ICreateUseCase";
 export class SignupUseCase implements ICreateUserCase {
   constructor(private authRepository: AuthRepository) {}
   async execute(userData: User): Promise<User | null> {
-    const newUser = new User(
-      userData.name,
-      userData.email,
-      userData.password,
-      userData.isAdmin,
-      userData.isBlocked,
-      userData._id
-    );
-    const createdUser = await this.authRepository.create(newUser);
+    const createdUser = await this.authRepository.create(userData);
+    console.log(createdUser,"auth repos");
     if (!createdUser) {
       throw AppError.badRequest("user creation failed");
     }

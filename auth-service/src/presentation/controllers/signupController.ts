@@ -44,6 +44,8 @@ export class SignupController {
       const ValidationErrors: ValidationType[] = [];
 
       const { email, password, role, gender, name } = req.body;
+      console.log(typeof name);
+      console.log(req.body, "ddd");
       if (!isValidEmail(email)) {
         ValidationErrors.push({
           fields: ["email"],
@@ -74,17 +76,17 @@ export class SignupController {
       if (!user._id) {
         throw AppError.badRequest("user id not created");
       }
+      console.log(user, "usser crated");
       const userCreatedEvent = {
         userId: user._id.toString(),
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
         isBlocked: user.isBlocked,
+        password: user.password,
       };
-      await this.kafkaProducerService.produce(
-        Topics.USER_SERVICE_TOPIC,
-        userCreatedEvent
-      );  
+      console.log(userCreatedEvent, "44");
+      await this.kafkaProducerService.produce("user-created", userCreatedEvent);
       const tokenPayload: TokenPayload = {
         userId: user._id.toString(),
         email: user.email,

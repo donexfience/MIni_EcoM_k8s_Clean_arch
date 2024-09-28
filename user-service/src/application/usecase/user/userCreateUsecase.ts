@@ -1,0 +1,20 @@
+import { UserEntity } from "../../../domain/entities/user/userEntity";
+
+export default (dependencie: any) => {
+
+  console.log("user-created ", dependencie)
+  const {
+    userRepository: { createUser },
+  } = dependencie;
+
+  if (!createUser) {
+    throw new Error("Dependency is required for update profile!");
+  }
+
+  const interactor = async (data: UserEntity) => {
+    console.log("calling", data, createUser);
+    
+    return await createUser(data);
+  };
+  return { interactor };
+};

@@ -10,6 +10,7 @@ export class UserUpdatUsecase implements IUpdateUserCase {
     data: Partial<User>
   ): Promise<User | null> {
     try {
+      console.log(userId,"dfs")
       const user = await this.authRepository.updateUser(userId, data);
       if (!user) {
         throw AppError.badRequest("user doenst exist");

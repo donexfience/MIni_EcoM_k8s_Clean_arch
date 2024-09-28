@@ -10,4 +10,5 @@ export abstract class AuthRepository {
     userId: string,
     data: Partial<User>
   ): Promise<User | null>;
+  // abstract UpdateConsumeUser(userId:string,data:Partial<User|null>)
 }
