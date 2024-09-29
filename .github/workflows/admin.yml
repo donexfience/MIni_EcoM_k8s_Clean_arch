@@ -27,3 +27,4 @@ jobs:
           context:  ./admin-service/  
           push: true
           tags: donexfdz/admin-service:latest
+
