@@ -86,7 +86,7 @@ export class Server {
     });
 
     // Routes
-    this.app.use(this.apiPrefix, this.routes);
+    this.app.use(this.routes);
     // Test Endpoint
     this.app.get("/", (req: Request, res: Response) => {
       return res.status(HttpCode.OK).send({

@@ -9,7 +9,7 @@ export class AppRoutes {
     router.get("/", (req: Request, res: Response) => {
       res.status(200).send({ message: "API is working!" });
     });
-    router.use("/auth", AuthRoutes.routes);
+    router.use("/", AuthRoutes.routes);
 
     return router;
   }
