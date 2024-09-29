@@ -24,6 +24,8 @@ exports.default = (dependencie) => {
                 _id: user._id,
                 name: user.name,
                 isBlocked: user.isBlocked,
+                password: user.password,
+                email: user.email,
             };
             yield (0, producer_1.sendToaKafkaTopic)(topics, key, message);
             res

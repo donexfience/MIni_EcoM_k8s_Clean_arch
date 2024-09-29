@@ -1,6 +1,6 @@
 0
 60
-__consumer_offsets 29 52
+__consumer_offsets 29 53
 __consumer_offsets 43 0
 __consumer_offsets 0 0
 __consumer_offsets 6 0
@@ -14,16 +14,16 @@ __consumer_offsets 19 0
 __consumer_offsets 25 0
 __consumer_offsets 33 0
 __consumer_offsets 41 0
-__consumer_offsets 37 48
+__consumer_offsets 37 49
 user-created 0 16
 __consumer_offsets 8 0
 __consumer_offsets 24 0
 __consumer_offsets 49 0
 __consumer_offsets 3 0
-__consumer_offsets 40 44
+__consumer_offsets 40 45
 __consumer_offsets 27 0
 __consumer_offsets 17 0
-__consumer_offsets 32 184
+__consumer_offsets 32 185
 __consumer_offsets 39 0
 user-block 0 4
 __consumer_offsets 2 0
@@ -33,19 +33,19 @@ __consumer_offsets 36 0
 __consumer_offsets 45 0
 user-unblocked 0 0
 __consumer_offsets 10 0
-__consumer_offsets 11 14
+__consumer_offsets 11 15
 __consumer_offsets 44 0
 __consumer_offsets 16 0
 __consumer_offsets 20 0
 __consumer_offsets 47 0
-__consumer_offsets 18 58
+__consumer_offsets 18 59
 user-unblock 0 59
 __consumer_offsets 7 0
 __consumer_offsets 48 0
 product-create 0 0
 product-updated 0 2
 __consumer_offsets 22 0
-__consumer_offsets 46 71
+__consumer_offsets 46 72
 __consumer_offsets 23 0
 __consumer_offsets 42 0
 __consumer_offsets 28 0
@@ -54,7 +54,7 @@ user-blocked 0 0
 product-created 0 21
 __consumer_offsets 31 0
 __consumer_offsets 5 0
-__consumer_offsets 1 44
+__consumer_offsets 1 45
 __consumer_offsets 15 0
 __consumer_offsets 38 0
 __consumer_offsets 34 0

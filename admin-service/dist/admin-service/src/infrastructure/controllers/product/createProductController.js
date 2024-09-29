@@ -21,12 +21,15 @@ exports.default = (dependencies) => {
             const product = yield createProductusecase(dependencies).interactor(Object.assign({ image: image }, data));
             const topics = ["product-created"];
             const key = product._id.toString();
+            console.log("product before sending", product);
             const message = {
                 productId: product._id,
                 title: product.title,
                 stock: product.stock,
-                price: product.prize,
+                price: product.price,
                 description: product.description,
+                isBlocked: product.isBlocked,
+                image: product.image,
             };
             yield (0, producer_1.sendToaKafkaTopic)(topics, key, message);
             res

@@ -62,10 +62,12 @@ class UserRepository {
             }
         });
     }
-    userBlock(userId) {
+    userBlock(_id) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(_id, "repos");
             try {
-                const user = yield user_1.default.findByIdAndUpdate(userId, { isBlocked: true }, { new: true });
+                const user = yield user_1.default.updateOne({ _id: _id }, { isBlocked: true }, { new: true });
+                console.log(user, "user userblock");
                 if (!user) {
                     throw new Error("user not crated");
                 }
@@ -75,10 +77,11 @@ class UserRepository {
             }
         });
     }
-    userUnBlock(userId) {
+    userUnBlock(_id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield user_1.default.findByIdAndUpdate(userId, { isBlocked: false }, { new: true });
+                const user = yield user_1.default.findByIdAndUpdate(_id, { isBlocked: false }, { new: true });
+                console.log(user, "user userUNNNNblock");
                 if (!user) {
                     throw new Error("user not crated");
                 }
