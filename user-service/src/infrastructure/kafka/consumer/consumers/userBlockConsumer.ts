@@ -1,4 +1,3 @@
-import { createUser } from "./../../../repositories/mongodb/repositories/user/useCreateProfile";
 import * as dependencies from "../../../../config/dependencies";
 
 export const userblockConsumer = async (data: {
