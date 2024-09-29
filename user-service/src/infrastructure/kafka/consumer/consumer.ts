@@ -4,20 +4,20 @@ export const startConsumer = async (
   topics: string[],
   topicHandlers: { [topic: string]: (data: any) => Promise<void> }
 ) => {
-   try {
+  try {
     await consumer.connect();
 
     // Subscribe to each specified topic
     for (const topic of topics) {
       await consumer.subscribe({ topic, fromBeginning: true });
-      
     }
-  
+
     console.log(`Consumer connected and subscribed to: ${topics.join(", ")}`);
-  
+
     await consumer.run({
       eachMessage: async ({ topic, partition, message }) => {
         const data = JSON.parse(message.value?.toString() || "{}");
+        console.log("consumed data", data);
         if (topicHandlers[topic]) {
           await topicHandlers[topic](data); // Call the appropriate handler
         } else {
@@ -25,9 +25,9 @@ export const startConsumer = async (
         }
       },
     });
-   } catch (error) {
-     console.log(error)
-   }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // Function to stop the consumer

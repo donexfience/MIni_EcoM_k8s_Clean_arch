@@ -6,6 +6,12 @@ import cookieParser from "cookie-parser";
 import path from "path";
 import userRouter from "./presentation/routes/userRoutes";
 import productRouter from "./presentation/routes/productRoutes";
+import {
+  startConsumer,
+  stopConsumer,
+} from "./infrastructure/kafka/consumer/consumer";
+import { userUpdateConsumer } from "./infrastructure/kafka/consumer/consumers/userUpdateConsumer";
+import { userCreateConsumer } from "./infrastructure/kafka/consumer/consumers/userCreatedConsumer";
 
 const app: Application = express();
 
@@ -31,7 +37,23 @@ app.all("*", async (req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-app.use(errorHandler);
+// app.use(errorHandler);
+const topics = [
+  "user-updated",
+  "user-created",
+];
+
+startConsumer(topics, {
+  "user-updated": userUpdateConsumer,
+  "user-created": userCreateConsumer,
+})
+  .then(() => console.log("Kafka consumer started successfully"))
+  .catch((error) => console.error("Error starting Kafka consumer:", error));
+
+process.on("SIGINT", async () => {
+  await stopConsumer();
+  process.exit(0);
+});
 
 const port: number = Number(process.env.PORT) || 3005;
 app.listen(port, () => {

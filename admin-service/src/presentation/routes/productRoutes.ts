@@ -1,8 +1,9 @@
 import { upload } from "./../../utils/multer/singleFileupload";
 import { Router } from "express";
-import dependencies from "../../config/dependencies";
+import * as dependencies from "../../config/dependencies";
 import { productController } from "../../infrastructure/controllers";
-import { requireAdmin, requrieAuth, setCurrentUser } from "donexfdz";
+import { setCurrentUser } from "../middleware/middleware/setCurrentUser";
+import { requireAdmin } from "../middleware/middleware/requireAdmin";
 
 const router: Router = Router();
 
@@ -17,14 +18,14 @@ router
   .route("/api/admin/products")
   .get(setCurrentUser, requireAdmin, getAllProductController)
   .post(
-    createProductController,
     setCurrentUser,
-    requireAdmin,
-    upload.single("file")
+
+    upload.single("image"),
+    createProductController
   );
 router
   .route("/api/admin/products/:id")
-  .get(setCurrentUser, requireAdmin, getProductController)
-  .put(setCurrentUser, requireAdmin, updateProductController);
+  .get(setCurrentUser,requireAdmin, getProductController)
+  .post(setCurrentUser,requireAdmin, upload.single("image"), updateProductController);
 
 export default router;

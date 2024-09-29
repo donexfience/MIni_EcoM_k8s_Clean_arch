@@ -1,18 +1,17 @@
 export default (dependencies: any) => {
+  console.log(dependencies, "finduser");
+  const {
+    userRepository: { findUser },
+  } = dependencies;
 
-    const {
-        userRepositories: { findUser }
-    } = dependencies;
+  if (!findUser) {
+    throw new Error("Dependency is required for find user!");
+  }
 
-    if (!findUser) {
-        throw new Error('Dependency is required for find user!');
-    }
+  const interactor = async (id: string) => {
+    console.log(id);
+    return await findUser(id);
+  };
 
-    const interactor = async (
-        id: string
-    ) => {
-        return await findUser(id);
-    }
-
-    return { interactor }
-}
+  return { interactor };
+};

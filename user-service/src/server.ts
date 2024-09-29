@@ -39,15 +39,15 @@ const port: number = Number(process.env.PORT) || 3001;
 const topics = [
   "user-updated",
   "user-created",
-  "user-blocked",
-  "user-unblocked",
+  "user-block",
+  "user-unblock",
 ];
 
 startConsumer(topics, {
   "user-updated": userUpdateConsumer,
   "user-created": userCreateConsumer,
-  "user-blocked": userblockConsumer,
-  "user-unblocked": userUnblockConsumer,
+  "user-block": userblockConsumer,
+  "user-unblock": userUnblockConsumer,
 })
   .then(() => console.log("Kafka consumer started successfully"))
   .catch((error) => console.error("Error starting Kafka consumer:", error));

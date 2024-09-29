@@ -24,5 +24,15 @@ class ProductService {
             return yield this.repository.getAll();
         });
     }
+    createProduct(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.createProduct(data);
+        });
+    }
+    updateProduct(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.updateProduct(id, data);
+        });
+    }
 }
 exports.ProductService = ProductService;

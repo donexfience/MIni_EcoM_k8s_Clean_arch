@@ -1,7 +1,7 @@
 export default (dependencies: any) => {
-
+    console.log()
     const {
-        userRepositories: { FindAllUser }
+        userRepository: { FindAllUser }
     } = dependencies;
 
     if (!FindAllUser) {

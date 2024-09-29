@@ -1,16 +1,16 @@
 import { UserEntity } from "../../../../../domain/entities/user/userEntity";
-import UserModel from "../../model/userModel";
+import userModel from "../../model/userModel";
 
 export const createUser = async (
   data: UserEntity
 ): Promise<UserEntity | null> => {
   try {
     console.log("database", data);
-   const newData = {
-     _id: data.userId,
-     ...data
-   }
-    const user = new UserModel(newData);
+    const newData = {
+      _id: data.userId,
+      ...data,
+    };
+    const user = new userModel(newData);
     console.log("doc", user);
     let ps = await user.save().catch((err) => {
       console.error("Error saving user:", err);

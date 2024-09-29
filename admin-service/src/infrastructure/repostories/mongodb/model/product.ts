@@ -33,7 +33,7 @@ const productSchema = new mongoose.Schema(
     },
     isBlocked: {
       type: Boolean,
-      required: true,
+      default: false,
     },
   },
   { timestamps: true }

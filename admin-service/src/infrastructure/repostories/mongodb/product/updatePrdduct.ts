@@ -6,6 +6,7 @@ export const updteProduct = async (
   id: string
 ): Promise<ProductEntity> => {
   try {
+    console.log(data, "data", id, "id");
     const updatedProduct = await ProductModel.findByIdAndUpdate(
       id,
       {

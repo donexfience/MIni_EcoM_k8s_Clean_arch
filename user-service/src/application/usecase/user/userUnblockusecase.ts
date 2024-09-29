@@ -1,6 +1,6 @@
 export default (dependencie: any) => {
   const {
-    userRepositories: { unblockUser },
+    userRepository: { unblockUser },
   } = dependencie;
 
   if (!unblockUser) {

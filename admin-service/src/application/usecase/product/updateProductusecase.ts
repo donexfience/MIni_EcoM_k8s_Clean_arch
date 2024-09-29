@@ -1,7 +1,7 @@
 export default (dependencie: any) => {
-
+    console.log(dependencie,"udpate prdouct admin uescase")
     const {
-        productRepositories: { updteProduct }
+        productRepository: { updteProduct }
     } = dependencie;
 
     if (!updteProduct) {
@@ -19,7 +19,8 @@ export default (dependencie: any) => {
             isBlocked: boolean;
         }
     ) => {
-        return await updteProduct(id, data);
+        console.log(data,"in the usecase product",id)
+        return await updteProduct(data, id);
     }
 
     return { interactor }

@@ -1,2 +1,3 @@
-export * as productUseCase from "./product";
-export * as userUseCase from "./user";
+import * as productUseCase from "./product";
+import * as userUseCase from "./user";
+export { productUseCase, userUseCase };

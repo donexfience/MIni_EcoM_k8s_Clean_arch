@@ -1,18 +1,16 @@
 export default (dependencie: any) => {
+  console.log(dependencie, "dpe");
+  const {
+    userRepository: { blockUser },
+  } = dependencie;
 
-    const {
-        userRepositories: { blockUser }
-    } = dependencie;
+  if (!blockUser) {
+    throw new Error("Dependency is required for block user!");
+  }
 
-    if (!blockUser) {
-        throw new Error('Dependency is required for block user!');
-    }
+  const interactor = async (id: string) => {
+    return await blockUser(id);
+  };
 
-    const interactor = async (
-        id: string
-    ) => {
-        return await blockUser(id);
-    }
-
-    return { interactor }
-}
+  return { interactor };
+};

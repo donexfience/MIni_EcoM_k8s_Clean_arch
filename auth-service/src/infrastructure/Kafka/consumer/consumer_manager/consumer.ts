@@ -8,8 +8,8 @@ import { UserUpdateConsumer } from "../common/consumers/userUpdatedConsumer";
 
 export class ConsumerManager {
   private kafkaClient: KafkaClient;
-  // private userBlockConsumer: UserBlockConsumer;
-  // private userUnBlockConsumer: UserUnBlockConsumer;
+  private userBlockConsumer: UserBlockConsumer;
+  private userUnBlockConsumer: UserUnBlockConsumer;
   private userUdateConsumer: UserUpdateConsumer;
 
   constructor(
@@ -23,27 +23,29 @@ export class ConsumerManager {
       brokers
     );
     const topic = "user-updated";
-    // this.userBlockConsumer = new UserBlockConsumer(
-    //   brokers,
-    //   topic,
-    //   this.userBlockuseCase
-    // );
-    // this.userUnBlockConsumer = new UserUnBlockConsumer(
-    //   brokers,
-    //   topic,
-    //   this.userUnBlockuseCase
-    // );
-    this.userUdateConsumer = new UserUpdateConsumer(
+    const topic2 = "user-block";
+    const topic3 = "user-unblock";
+    this.userBlockConsumer = new UserBlockConsumer(
       brokers,
       topic,
+      this.userBlockuseCase
+    );
+    this.userUnBlockConsumer = new UserUnBlockConsumer(
+      brokers,
+      topic2,
+      this.userUnBlockuseCase
+    );
+    this.userUdateConsumer = new UserUpdateConsumer(
+      brokers,
+      topic3,
       this.UserUpdatUsecase
     );
   }
 
   public async startConsumers() {
     try {
-      // await this.userBlockConsumer.startConsuming();
-      // await this.userUnBlockConsumer.startConsuming();
+      await this.userBlockConsumer.startConsuming();
+      await this.userUnBlockConsumer.startConsuming();
       await this.userUdateConsumer.startConsuming();
       console.log("User Block Consumer started successfully");
     } catch (error) {
