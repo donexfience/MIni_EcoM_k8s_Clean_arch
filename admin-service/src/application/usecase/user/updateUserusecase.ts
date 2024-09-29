@@ -1,4 +1,4 @@
-import { UserRepository } from './../../../../../cart-service/src/repository/userRepository';
+
 export default (dependencie: any) => {
   console.log(dependencie.userRepository,"ddud")
   const {
