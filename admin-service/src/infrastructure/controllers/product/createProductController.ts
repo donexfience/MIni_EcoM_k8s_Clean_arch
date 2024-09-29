@@ -22,12 +22,15 @@ export default (dependencies: any) => {
       });
       const topics = ["product-created"];
       const key = product._id.toString();
+      console.log("product before sending", product);
       const message = {
         productId: product._id,
         title: product.title,
         stock: product.stock,
-        price: product.prize,
+        price: product.price,
         description: product.description,
+        isBlocked: product.isBlocked,
+        image: product.image,
       };
       await sendToaKafkaTopic(topics, key, message);
       res

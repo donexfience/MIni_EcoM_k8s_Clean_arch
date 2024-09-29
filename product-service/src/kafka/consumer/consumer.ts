@@ -1,20 +1,17 @@
 import { Kafka, EachMessagePayload } from "kafkajs";
-import { ProductService } from "../../services/productservice";
 
 export class KafkaConsumer {
   private kafka: Kafka;
   public consumer: any;
+  private service: any; 
 
-  constructor(
-    brokers: string[],
-    groupId: string,
-    private productService: ProductService
-  ) {
+  constructor(brokers: string[], groupId: string, service: any) {
     this.kafka = new Kafka({
       clientId: "AUTH_SERVICE_CLIENT",
       brokers,
     });
     this.consumer = this.kafka.consumer({ groupId });
+    this.service = service;
   }
 
   public async connect() {
@@ -43,16 +40,62 @@ export class KafkaConsumer {
           const data = JSON.parse(payload.message.value.toString());
           console.log("Data received:", data, data.action);
 
-          if (data.id) {
-            await this.productService.createProduct(data);
-          } else {
-            await this.productService.updateProduct(data.id, data);
-            console.log("Product created:", data);
+          // Separate logic for products (if productId exists)
+          if (data.productId) {
+            console.log("Product handling, productId:", data.productId);
+            await this.handleProductData(data);
+          }
+          // Separate logic for users (if _id exists)
+          else if (data._id) {
+            console.log("User handling, userId:", data._id);
+            await this.handleUserData(data);
+          }
+          // Log unhandled data
+          else {
+            console.log("Received data does not match known schemas:", data);
           }
         } catch (error) {
           console.error("Error in Kafka consumer:", error);
         }
       },
     });
+  }
+
+  // Handle product-related data
+  private async handleProductData(data: any) {
+    try {
+      // Call product-related service methods
+      if (data.productId) {
+        console.log("Handling product data with productId:", data.productId);
+        await this.service.createProduct(data);
+      } else {
+        console.log("Handling product update");
+        await this.service.updateProduct(data);
+      }
+    } catch (error) {
+      console.error("Error handling product data:", error);
+    }
+  }
+
+  // Handle user-related data
+  private async handleUserData(data: any) {
+    try {
+      // If the user isBlocked flag exists, handle blocking/unblocking
+      if (data.isBlocked !== undefined) {
+        if (data.isBlocked) {
+          console.log("Blocking user with userId:", data._id);
+          await this.service.userBlock(data._id);
+        } else {
+          console.log("Unblocking user with userId:", data._id);
+          await this.service.userUnBlock(data._id);
+        }
+      } else {
+        // Otherwise, handle user updates
+        console.log("Updating user with userId:", data._id);
+        await this.service.userUpdate(data._id, data);
+      }
+    } catch (error) {
+      console.error("Error handling user data:", error);
+    }
   }
 }

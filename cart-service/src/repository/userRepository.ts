@@ -58,13 +58,15 @@ export class UserRepository implements IUserRepository {
       return null;
     }
   }
-  async userBlock(userId: string): Promise<void> {
+  async userBlock(_id: string): Promise<void> {
+    console.log(_id, "repos");
     try {
-      const user = await userModel.findByIdAndUpdate(
-        userId,
+      const user = await userModel.updateOne(
+        { _id: _id },
         { isBlocked: true },
         { new: true }
       );
+      console.log(user, "user userblock");
       if (!user) {
         throw new Error("user not crated");
       }
@@ -72,13 +74,16 @@ export class UserRepository implements IUserRepository {
       throw new Error(error?.message);
     }
   }
-  async userUnBlock(userId: string): Promise<void> {
+  async userUnBlock(_id: string): Promise<void> {
     try {
       const user = await userModel.findByIdAndUpdate(
-        userId,
+        _id,
         { isBlocked: false },
         { new: true }
       );
+
+      console.log(user, "user userUNNNNblock");
+
       if (!user) {
         throw new Error("user not crated");
       }

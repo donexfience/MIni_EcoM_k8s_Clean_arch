@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import userModel from "../../infrastructure/repositories/mongodb/model/userModel";
+import userModel from "../../../infrastructure/repostories/mongodb/model/user";
 
 export const isBlockedUser = async (
   req: Request,
@@ -10,7 +10,7 @@ export const isBlockedUser = async (
     if (req.userPayload?.isBlocked) {
       throw new Error("You are blocked from the site!");
     }
-    const user = await userModel.findOne({email:req.userPayload?.email});
+    const user = await userModel.findOne({ email: req.userPayload?.email });
     if (user?.isBlocked) {
       throw new Error("You are blocked from the site!");
     }

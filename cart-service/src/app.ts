@@ -5,11 +5,13 @@ import { errorHandler } from "donexfdz";
 import cartRoutes from "./router/cartRoutes";
 import { Userservice } from "./services/user-service";
 import { ConsumerManager } from "./kafka/consumer/consumer_manager/consumer_manager";
+import { ProductRepository } from "./repository/productRepository";
+import { Productservice } from "./services/product-service";
 
 class App {
   public app: Application;
   private port: number;
-  private consumerManager!: ConsumerManager; 
+  private consumerManager!: ConsumerManager;
 
   constructor(port: number) {
     this.app = express();
@@ -34,9 +36,15 @@ class App {
     // Initialize Kafka consumer
     const brokers = ["localhost:9092"];
     const userRepository = new UserRepository();
+    const productRepository = new ProductRepository();
+    const productService = new Productservice(productRepository);
     const userService = new Userservice(userRepository);
 
-    this.consumerManager = new ConsumerManager(brokers, userService);
+    this.consumerManager = new ConsumerManager(
+      brokers,
+      userService,
+      productService
+    );
     try {
       await this.consumerManager.startConsumers();
       console.log("Kafka consumers started successfully.");

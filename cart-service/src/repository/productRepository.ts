@@ -6,6 +6,7 @@ import { ProductModel } from "../model/schema/product";
 export class ProductRepository implements IProductRepository {
   async updateProduct(id: string, data: createProductDTO): Promise<void> {
     try {
+      console.log(data, "data for updation");
       const updateData: Partial<createProductDTO> = {};
       if (data.stock !== undefined) {
         updateData.stock = data.stock;
@@ -28,7 +29,6 @@ export class ProductRepository implements IProductRepository {
         updateData,
         {
           new: true,
-          runValidators: true, // Validateing against schema before update
         }
       );
 

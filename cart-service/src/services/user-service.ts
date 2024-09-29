@@ -25,12 +25,15 @@ export class Userservice implements IUserService {
   }
   public async userBlock(userId: string): Promise<void> {
     try {
-      return this.userRepository.userBlock(userId);
+      console.log(userId, "in the user serivceWWWWWWWWWW");
+      await this.userRepository.userBlock(userId);
     } catch (error) {
       throw new Error("user not blocked in the user service");
     }
   }
   public async userUnBlock(userId: string): Promise<void> {
+    console.log(userId, "in the user serivce");
+
     try {
       return this.userRepository.userUnBlock(userId);
     } catch (error) {

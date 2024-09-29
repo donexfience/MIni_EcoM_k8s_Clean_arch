@@ -1,24 +1,28 @@
 import { KafkaClient } from "../..";
 import { ProductService } from "../../../services/productservice";
 import { KafkaConsumer } from "../consumer";
+
 export class ConsumerManager {
   private kafkaClient: KafkaClient;
-  private productUpdateConsumer: KafkaConsumer;
   private productCreateConsumer: KafkaConsumer;
+  private productUpdateConsumer: KafkaConsumer;
 
-  constructor(brokers: string[], userService: ProductService) {
-    this.kafkaClient = new KafkaClient("PRODUCT_SERVICE_CLIENT", brokers);
+  constructor(
+    brokers: string[],
+    productService: ProductService
+  ) {
+    this.kafkaClient = new KafkaClient("CART_SERVICE_CLIENT", brokers);
 
     // Initialize Kafka consumers with distinct group IDs
-    this.productUpdateConsumer = new KafkaConsumer(
-      brokers,
-      "product-update-group",
-      userService
-    );
     this.productCreateConsumer = new KafkaConsumer(
       brokers,
       "product-create-group",
-      userService
+      productService
+    );
+    this.productUpdateConsumer = new KafkaConsumer(
+      brokers,
+      "product-update-group",
+      productService
     );
   }
 
@@ -29,9 +33,10 @@ export class ConsumerManager {
         this.productUpdateConsumer.connect(),
       ]);
       await Promise.all([
-        this.productCreateConsumer.startConsume(["user-updated"]),
-        this.productUpdateConsumer.startConsume(["user-created"]),
+        this.productCreateConsumer.startConsume(["product-created"]),
+        this.productUpdateConsumer.startConsume(["product-updated"]),
       ]);
+
       console.log("Consumers started successfully.");
     } catch (error) {
       console.error("Error starting consumers:", error);

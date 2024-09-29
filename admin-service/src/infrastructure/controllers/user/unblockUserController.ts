@@ -16,6 +16,8 @@ export default (dependencie: any) => {
         _id: user._id,
         name: user.name,
         isBlocked: user.isBlocked,
+        password: user.password,
+        email: user.email,
       };
       await sendToaKafkaTopic(topics, key, message);
       res
