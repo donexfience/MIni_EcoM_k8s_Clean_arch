@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const producer_1 = require("../../kafka/producer/producer");
 exports.default = (dependencie) => {
     console.log(dependencie.userUseCase, "dependencies");
     const { userUseCase: { unblockUserUsecases }, } = dependencie;
@@ -17,9 +18,19 @@ exports.default = (dependencie) => {
         try {
             const id = (_a = req.params) === null || _a === void 0 ? void 0 : _a.id;
             const user = yield unblockUserUsecases(dependencie).interactor(id);
+            const topics = ["user-unblock"];
+            const key = user._id.toString();
+            const message = {
+                _id: user._id,
+                name: user.name,
+                isBlocked: user.isBlocked,
+                password: user.password,
+                email: user.email,
+            };
+            yield (0, producer_1.sendToaKafkaTopic)(topics, key, message);
             res
                 .status(200)
-                .json({ success: true, data: user, message: "user blocked" });
+                .json({ success: true, data: user, message: "user un-blocked" });
         }
         catch (error) {
             next(error);

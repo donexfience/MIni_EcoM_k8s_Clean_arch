@@ -12,18 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findProduct = void 0;
+exports.findUser = void 0;
 const user_1 = __importDefault(require("../model/user"));
-const findProduct = (id) => __awaiter(void 0, void 0, void 0, function* () {
+const findUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield user_1.default.findById(id);
+        console.log(id, "id");
+        const user = yield user_1.default.findOne({ _id: id });
         if (!user) {
             throw new Error("user not available");
         }
         return user;
     }
     catch (error) {
-        throw new Error("user is not in database");
+        throw new Error(error);
     }
 });
-exports.findProduct = findProduct;
+exports.findUser = findUser;

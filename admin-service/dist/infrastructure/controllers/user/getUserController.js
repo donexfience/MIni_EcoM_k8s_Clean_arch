@@ -10,17 +10,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (dependencie) => {
-    const { userUseCase: { findUserCase }, } = dependencie;
+    console.log(dependencie.userUseCase, "user");
+    const { userUseCase: { findUserUsecase }, } = dependencie;
     const getAlluser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         var _a;
         try {
-            const id = (_a = req.params) === null || _a === void 0 ? void 0 : _a._id;
-            const user = yield findUserCase(dependencie).interactor(id);
+            console.log("callllllllllllllllll");
+            console.log(req.params);
+            const id = (_a = req.params) === null || _a === void 0 ? void 0 : _a.id;
+            console.log(id, "id in the controller");
+            const user = yield findUserUsecase(dependencie).interactor(id);
+            console.log(user, "user");
             res
                 .status(200)
                 .json({ success: true, data: user, message: "user listed" });
         }
-        catch (error) { }
+        catch (error) {
+            console.log(error);
+        }
     });
     return getAlluser;
 };

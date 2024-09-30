@@ -15,7 +15,7 @@ const {
 } = productController(dependencies);
 
 router
-  .route("/api/admin/products")
+  .route("/products")
   .get(setCurrentUser, requireAdmin, getAllProductController)
   .post(
     setCurrentUser,
@@ -24,7 +24,7 @@ router
     createProductController
   );
 router
-  .route("/api/admin/products/:id")
+  .route("/products/:id")
   .get(setCurrentUser,requireAdmin, getProductController)
   .post(setCurrentUser,requireAdmin, upload.single("image"), updateProductController);
 

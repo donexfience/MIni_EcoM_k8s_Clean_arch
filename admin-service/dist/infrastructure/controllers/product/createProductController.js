@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const producer_1 = require("../../kafka/producer/producer");
 exports.default = (dependencies) => {
     console.log(dependencies, "cratepcontroller");
     const { productUseCase: { createProductusecase }, } = dependencies;
@@ -18,6 +19,19 @@ exports.default = (dependencies) => {
             const image = (_a = req === null || req === void 0 ? void 0 : req.file) === null || _a === void 0 ? void 0 : _a.filename;
             const data = req.body;
             const product = yield createProductusecase(dependencies).interactor(Object.assign({ image: image }, data));
+            const topics = ["product-created"];
+            const key = product._id.toString();
+            console.log("product before sending", product);
+            const message = {
+                productId: product._id,
+                title: product.title,
+                stock: product.stock,
+                price: product.price,
+                description: product.description,
+                isBlocked: product.isBlocked,
+                image: product.image,
+            };
+            yield (0, producer_1.sendToaKafkaTopic)(topics, key, message);
             res
                 .status(200)
                 .json({ success: true, data: product, message: "product created" });

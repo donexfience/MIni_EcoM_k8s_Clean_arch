@@ -10,12 +10,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (dependencie) => {
-    const { productRepositories: { updteProduct } } = dependencie;
+    console.log(dependencie, "udpate prdouct admin uescase");
+    const { productRepository: { updteProduct } } = dependencie;
     if (!updteProduct) {
         throw new Error('Dependency is required for update product!');
     }
     const interactor = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
-        return yield updteProduct(id, data);
+        console.log(data, "in the usecase product", id);
+        return yield updteProduct(data, id);
     });
     return { interactor };
 };

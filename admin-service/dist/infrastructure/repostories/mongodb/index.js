@@ -26,8 +26,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.productRepository = exports.userRepository = void 0;
+exports.userRepository = exports.productRepository = void 0;
 __exportStar(require("./model/product"), exports);
 __exportStar(require("./model/user"), exports);
-exports.userRepository = __importStar(require("../mongodb/product"));
-exports.productRepository = __importStar(require("../mongodb/user"));
+exports.productRepository = __importStar(require("../mongodb/product"));
+exports.userRepository = __importStar(require("../mongodb/user"));

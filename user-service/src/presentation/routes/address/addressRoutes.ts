@@ -9,7 +9,7 @@ const router: Router = Router();
 const { addAddressController, deleteAddressController } =
   addressController(dependencies);
 router
-  .route("/api/user/address/:id")
+  .route("/address/:id")
   .post(setCurrentUser, isBlockedUser, requrieAuth, addAddressController)
   .delete(setCurrentUser, requrieAuth, isBlockedUser, deleteAddressController);
 

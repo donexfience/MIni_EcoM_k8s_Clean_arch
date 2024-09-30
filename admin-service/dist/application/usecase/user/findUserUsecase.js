@@ -10,11 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (dependencies) => {
-    const { userRepositories: { findUser } } = dependencies;
+    console.log(dependencies, "finduser");
+    const { userRepository: { findUser }, } = dependencies;
     if (!findUser) {
-        throw new Error('Dependency is required for find user!');
+        throw new Error("Dependency is required for find user!");
     }
     const interactor = (id) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log(id);
         return yield findUser(id);
     });
     return { interactor };

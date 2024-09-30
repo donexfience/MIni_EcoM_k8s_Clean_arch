@@ -24,5 +24,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userUseCase = exports.productUseCase = void 0;
-exports.productUseCase = __importStar(require("./product"));
-exports.userUseCase = __importStar(require("./user"));
+const productUseCase = __importStar(require("./product"));
+exports.productUseCase = productUseCase;
+const userUseCase = __importStar(require("./user"));
+exports.userUseCase = userUseCase;

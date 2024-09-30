@@ -12,23 +12,22 @@ const cartService = new CartService(cartRepositoroy);
 const cartController = new CartController(cartService);
 
 router.post(
-  "/cart",
+  "/addTocart",
   setCurrentUser,
-  requrieAuth,
   isBlockedUser,
   (req: Request, res: Response) => {
     cartController.addItemToCart(req, res);
   }
 );
 router.get(
-  "/cart/:userId",
+  "/:userId",
   setCurrentUser,
   requrieAuth,
   isBlockedUser,
   (req, res) => cartController.getCart(req, res)
 );
 router.delete(
-  "/cart/:userId",
+  "/deleteCart/:userId",
   setCurrentUser,
   isBlockedUser,
   requrieAuth,

@@ -23,18 +23,18 @@ router.use((req, res, next: NextFunction) => {
 })
 
 router
-  .route("/api/admin/user")
+  .route("/user")
   .get(setCurrentUser, getAllusrController);
 router
-  .route("/api/admin/users/:id")
+  .route("/users/:id")
   .get(setCurrentUser, getUserController);
 router
-  .route("/api/admin/users/unblock/:id")
+  .route("/users/unblock/:id")
 
   .put(setCurrentUser,  unblockUserController);
 
 router
-  .route("/api/admin/users/block/:id")
+  .route("/users/block/:id")
 
   .put(setCurrentUser, blockUserController);
 

@@ -21,7 +21,7 @@ class App {
     this.app.use(express.json());
 
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use("/api", productRoutes);
+    this.app.use(productRoutes);
     this.app.use(errorHandler);
   }
   private async initializeServices() {

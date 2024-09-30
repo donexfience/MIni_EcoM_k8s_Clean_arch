@@ -28,7 +28,7 @@ const productSchema = new mongoose_1.default.Schema({
     },
     isBlocked: {
         type: Boolean,
-        required: true,
+        default: false,
     },
 }, { timestamps: true });
 exports.ProductModel = mongoose_1.default.model("products", productSchema);

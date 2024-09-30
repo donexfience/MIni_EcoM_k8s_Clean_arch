@@ -10,9 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (dependencie) => {
-    const { userRepositories: { blockUser } } = dependencie;
+    console.log(dependencie, "dpe");
+    const { userRepository: { blockUser }, } = dependencie;
     if (!blockUser) {
-        throw new Error('Dependency is required for block user!');
+        throw new Error("Dependency is required for block user!");
     }
     const interactor = (id) => __awaiter(void 0, void 0, void 0, function* () {
         return yield blockUser(id);

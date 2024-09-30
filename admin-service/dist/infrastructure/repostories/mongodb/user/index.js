@@ -18,3 +18,5 @@ __exportStar(require("./userBlock"), exports);
 __exportStar(require("./findAlluser"), exports);
 __exportStar(require("./findUser"), exports);
 __exportStar(require("./userUnblock"), exports);
+__exportStar(require("./useCreateProfile"), exports);
+__exportStar(require("./UdateProfile"), exports);

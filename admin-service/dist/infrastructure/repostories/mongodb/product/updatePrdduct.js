@@ -13,6 +13,7 @@ exports.updteProduct = void 0;
 const product_1 = require("../model/product");
 const updteProduct = (data, id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(data, "data", id, "id");
         const updatedProduct = yield product_1.ProductModel.findByIdAndUpdate(id, {
             $set: {
                 title: data.title,

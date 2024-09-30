@@ -24,7 +24,7 @@ class App {
     this.app.use(errorHandler);
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use("/api", cartRoutes);
+    this.app.use(cartRoutes);
     // Error Handling Middleware
     // this.app.use(ErrorMiddleware.handleError);
   }

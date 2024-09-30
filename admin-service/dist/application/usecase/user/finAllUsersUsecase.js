@@ -10,7 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = (dependencies) => {
-    const { userRepositories: { FindAllUser } } = dependencies;
+    console.log();
+    const { userRepository: { FindAllUser } } = dependencies;
     if (!FindAllUser) {
         throw new Error('Dependency is required for find all users!');
     }

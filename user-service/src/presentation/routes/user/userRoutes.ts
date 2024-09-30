@@ -10,7 +10,7 @@ const { currentUserController, updateUserController } =
   userController(dependencies);
 
 router
-  .route("/api/user")
+  .route("/user")
   .put(setCurrentUser,requrieAuth,isBlockedUser, updateUserController)
   .get(setCurrentUser, requrieAuth, isBlockedUser, currentUserController);
 export default router;
